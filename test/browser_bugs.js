@@ -105,18 +105,35 @@ function specsBrowserBugs(specs,context){
 			tmpNode2 = context.document.createElement('input');tmpNode2.setAttribute('id',  'getelementbyid');tmpNode2.setAttribute('type','password');testNode.appendChild(tmpNode2);
 			
 			results = tmpNode1.ownerDocument.getElementById('getelementbyid');
+			value_of( results.getAttribute('id') ).should_be('getelementbyid');
+			value_of( results.getAttribute('type') ).should_be('password');
 			value_of( results ).should_be(tmpNode2);
+		};
+		
+		it['getElementsById Should match id attribute, using innerHTML FROM Slick'] = function(){
+			teardown();setup();
+			
+			var id = 'getelementbyid';
+			testNode.innerHTML = ('<a name='+id+'></a><b id='+id+'></b>');
+			value_of( testNode.ownerDocument.getElementById(id) === testNode.firstChild ).should_be( false );
 		};
 		
 		it['getElementsById Should match id attribute, using innerHTML'] = function(){
 			teardown();setup();
 			
 			testNode.innerHTML = '<input name="getelementbyid" type="password" /><input id="getelementbyid" type="text" />';
-			tmpNode1 = testNode.firstChild;
-			tmpNode2 = testNode.lastChild;
-			
+			// tmpNode1 = testNode.firstChild;
+			// tmpNode2 = testNode.lastChild;
+			// 
 			results = tmpNode1.ownerDocument.getElementById('getelementbyid');
-			value_of( results ).should_be(tmpNode2);
+			// value_of( results === tmpNode1 ).should_not_be(true);
+			// value_of( results === tmpNode2 ).should_be(true);
+			// 
+			// value_of( results.getAttribute('name') ).should_not_be('getelementbyid');
+			// value_of( results.id ).should_be('getelementbyid');
+			// value_of( results.getAttribute('id') ).should_be('getelementbyid');
+			value_of( testNode.childNodes[1] === results ).should_be( true );
+			value_of( results.getAttribute('type') ).should_be('text');
 		};
 		
 	});

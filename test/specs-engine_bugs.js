@@ -310,11 +310,33 @@ function specsBrowserBugsFixed(specs,context){
 			tmpNode3 = testNode.childNodes[2];
 			tmpNode4 = testNode.childNodes[3];
 			
-			results = context.Slick(testNode,'#getelementbyid',[]);
-			// value_of( results ).should_be([tmpNode2]);
-			// value_of( results[0] ).should_be(tmpNode2);
-			value_of( results[0] == tmpNode2 ).should_be_true();
-			value_of( results.length ).should_be(1);
+			try {
+				Slick.disableQSA = true;
+				context.Slick.disableQSA = true;
+				
+				results = Slick(testNode,'#getelementbyid',[]);
+				value_of( results ).should_not_be( [] );
+				value_of( results[0] == tmpNode2 ).should_be_true();
+				value_of( results.length ).should_be(1);
+			}
+			finally {
+				Slick.disableQSA = false;
+				context.Slick.disableQSA = false;
+			}
+			
+			context.Slick.disableQSA = true;
+			context.Slick.disableQSA = false;
+			// results = context.Slick(testNode,'#getelementbyid',[]);
+			// // value_of( results ).should_be([tmpNode2]);
+			// // value_of( results[0] ).should_be(tmpNode2);
+			// value_of( results[0] == tmpNode2 ).should_be_true();
+			// console.log(results);
+			// value_of( results.length ).should_be(1);
+			// 
+			// context.Slick.disableQSA = false;
+			// results = context.Slick(testNode,'#getelementbyid',[]);
+			// value_of( results[0] == tmpNode2 ).should_be_true();
+			// value_of( results.length ).should_be(1);
 		};
 		
 		if( !isXML )

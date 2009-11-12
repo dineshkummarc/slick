@@ -15,6 +15,117 @@ function specsBrowserBugs(specs,context){
 		testNode = null;
 	};
 	
+	Describe('childNodes',function(){
+		
+		it['result should be live'] = function(){ // http://jsbin.com/umuga/
+
+			var Collections, div, name, nodes;
+
+			Collections = {
+				'NodeList': function(element) {
+					return element.childNodes;
+				// },
+				// 
+				// 'StaticNodeList': function(element) {
+				// 	return element.querySelectorAll
+				// 		? element.querySelectorAll('p')
+				// 		: [ ];
+				// },
+				// 
+				// 'HTMLCollection': function(element) {
+				// 	return element.getElementsByTagName('*');
+				}
+			};
+
+
+			/***** TESTS *****/
+
+			for (name in Collections) {
+
+				// create new div
+				div = document.createElement('div');
+
+				// just to show it will error when using a valid index
+				div.innerHTML = '<p></p>';
+
+				// get a node collection
+				nodes = Collections[name](div);
+
+				// append div to body
+				document.body.appendChild(div);
+
+				// attempt to reference any index (in or out of range)
+				try {
+					value_of( nodes[0] ).should_not_be_undefined();
+					nodes[0];
+				} finally {
+					// cleanup
+					document.body.removeChild(div);
+				}
+			}
+		};
+		
+	});
+	
+	
+	Describe('getElementsByTagName',function(){
+		
+		it['tagName "*" must select all element nodes'] = TODO;
+		it['tagName "*" must only select element nodes'] = TODO;
+		it['should return a live HTMLCollection instance'] = TODO;
+		
+		it['result should be live'] = function(){ // http://jsbin.com/umuga/
+
+			var Collections, div, name, nodes;
+
+			Collections = {
+				// 'NodeList': function(element) {
+				// 	return element.childNodes;
+				// },
+				// 
+				// 'StaticNodeList': function(element) {
+				// 	return element.querySelectorAll
+				// 		? element.querySelectorAll('p')
+				// 		: [ ];
+				// },
+				// 
+				'HTMLCollection': function(element) {
+					return element.getElementsByTagName('*');
+				}
+			};
+
+
+			/***** TESTS *****/
+
+			for (name in Collections) {
+
+				// create new div
+				div = document.createElement('div');
+
+				// just to show it will error when using a valid index
+				div.innerHTML = '<p></p>';
+
+				// get a node collection
+				nodes = Collections[name](div);
+
+				// append div to body
+				document.body.appendChild(div);
+
+				// attempt to reference any index (in or out of range)
+				try {
+					value_of( nodes[0] ).should_not_be_undefined();
+					nodes[0];
+				} finally {
+					// cleanup
+					document.body.removeChild(div);
+				}
+			}
+		};
+		;
+		
+	});
+	
+	
 	Describe('getElementsByName',function(){
 		
 		specs.before_each = setup;
@@ -187,6 +298,53 @@ function specsBrowserBugs(specs,context){
 			}
 		};
 		
+		it["result should not be live, but still shouldn't throw"] = function(){ // http://jsbin.com/umuga/
+
+			var Collections, div, name, nodes;
+
+			Collections = {
+				// 'NodeList': function(element) {
+				// 	return element.childNodes;
+				// },
+
+				'StaticNodeList': function(element) {
+					return element.querySelectorAll
+						? element.querySelectorAll('p')
+						: [ ];
+				// },
+				// 
+				// 'HTMLCollection': function(element) {
+				// 	return element.getElementsByTagName('*');
+				}
+			};
+
+
+			/***** TESTS *****/
+
+			for (name in Collections) {
+
+				// create new div
+				div = document.createElement('div');
+
+				// just to show it will error when using a valid index
+				div.innerHTML = '<p></p>';
+
+				// get a node collection
+				nodes = Collections[name](div);
+
+				// append div to body
+				document.body.appendChild(div);
+
+				// attempt to reference any index (in or out of range)
+				try {
+					value_of( nodes[0] ).should_not_be_undefined();
+					nodes[0];
+				} finally {
+					// cleanup
+					document.body.removeChild(div);
+				}
+			}
+		};
 	});
 	
 	Describe('xpath',function(){

@@ -11,7 +11,7 @@
 <?php	endforeach; ?>
 	</select>
 	selector list against
-	<select name="special" onchange="this.form.submit();" title="Many browser engines only run on document, these tests reveal the pure JavaScipt part of selector engines.">
+	<select name="special" onchange="this.form.submit();" title="Many browser engines only run on document, these tests reveal the pure JavaScript part of selector engines.">
 <?php	foreach($special_list as $key => $value): ?>
 		<option value="<?= $key ?>"<?= ($key == $special) ? ' selected="selected"' : '' ?>><?= $value ?></option>
 <?php	endforeach; ?>
